@@ -9,7 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -17,15 +18,22 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author benjamin
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class AgendaServiceTest {
 
     @Autowired
-    private AgendaService service;
+    private IAgendaService service;
+    
+    @TestConfiguration
+    static class AgendaServiceTestConfig{
+        @Bean
+        AgendaService getAgendaService() {
+            return new AgendaService();
+        }
+    }
 
     @After
     public void onDestroy(){
-        service.setAgenda(new ArrayList());
+        //service.setAgenda(new ArrayList());
     }
     
     @Test
@@ -34,7 +42,7 @@ public class AgendaServiceTest {
         hour.set(Calendar.MINUTE, 0);
         hour.set(Calendar.SECOND, 0);
         hour.set(Calendar.MILLISECOND, 0);
-        service.getAgenda().add(new Cita(hour.getTime()));
+        service.addCita(new Cita(hour.getTime()));
         boolean isTaken = service.isHourTaken(hour.getTime());
         Assert.assertTrue(isTaken);
     }
@@ -82,15 +90,14 @@ public class AgendaServiceTest {
 
     @Test
     public void appointmentContactIstaken() {
-        service.getAgenda().add(new Cita(new Date(), "contacto@benjamin.com"));
-        System.out.println("AGENDA=" + service.getAgenda().size());
+        service.addCita(new Cita(new Date(), "contacto@benjamin.com"));
         boolean isTaken = service.isHourTaken("contacto@benjamin.com");
         Assert.assertTrue(isTaken);
     }
     
-   // @Test
+    @Test
     public void appointmentContactIsNotTaken() {
-        service.getAgenda().add(new Cita(new Date(), "contacto@benjamin.com"));
+       //service.addCita(new Cita(new Date(), "contacto@benjamin.com"));
         boolean isTaken = service.isHourTaken("contacto2@benjamin.com");
         Assert.assertFalse(isTaken);
     }

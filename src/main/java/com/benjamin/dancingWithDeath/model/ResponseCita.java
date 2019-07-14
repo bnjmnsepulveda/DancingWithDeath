@@ -11,6 +11,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Agenda {
-    private java.util.List<Cita> citas;
+public class ResponseCita {
+    private Cita cita;
+    private String estado;
+    private String mensaje;
 }
