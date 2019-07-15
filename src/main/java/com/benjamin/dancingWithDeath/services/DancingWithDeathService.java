@@ -3,6 +3,7 @@ package com.benjamin.dancingWithDeath.services;
 import com.benjamin.dancingWithDeath.model.Cita;
 import com.benjamin.dancingWithDeath.utils.HourTakenException;
 import com.benjamin.dancingWithDeath.utils.NotOfficeHourException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Service;
  * @author benjamin
  */
 @Service
-public class DancingWithDeathService implements IDancingWithDeath{
+public class DancingWithDeathService implements IDancingWithDeathService{
 
     @Autowired
     private IAgendaService service;
     
     @Override
-    public void appointmentHour(Cita cita) {
+    public Cita appointmentHour(Cita cita) {
         if(!service.validateInfo(cita)){
             throw new IllegalArgumentException("info de cita " + cita + " no es valido");
         }
@@ -31,6 +32,12 @@ public class DancingWithDeathService implements IDancingWithDeath{
             throw new HourTakenException("Hour " + cita.getDate() + " is taken");
         }
         service.addCita(cita);
+        return cita;
+    }
+
+    @Override
+    public List<Cita> findCitas() {
+        return service.findCitas();
     }
     
 }

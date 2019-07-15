@@ -6,6 +6,7 @@ import com.benjamin.dancingWithDeath.model.Cita;
  *
  * @author benjamin
  */
-public interface IDancingWithDeath {
-    void appointmentHour(Cita cita);   
+public interface IDancingWithDeathService {
+    Cita appointmentHour(Cita cita);   
+    java.util.List<Cita> findCitas();
 }

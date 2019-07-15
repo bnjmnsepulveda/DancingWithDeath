@@ -15,9 +15,11 @@ public interface IAgendaService {
 
     public boolean isHourTaken(String contacto);
 
+    public boolean isOfficeHour(Date date);
+    
     public void addCita(Cita cita);
+    
+    public java.util.List<Cita> findCitas();
 
     public int citasSize();
-
-    public boolean isOfficeHour(Date date);
 }

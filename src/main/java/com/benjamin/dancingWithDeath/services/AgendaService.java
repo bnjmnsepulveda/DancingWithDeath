@@ -59,4 +59,9 @@ public class AgendaService implements IAgendaService{
         return false;
     }
 
+    @Override
+    public List<Cita> findCitas() {
+        return agenda;
+    }
+
 }
